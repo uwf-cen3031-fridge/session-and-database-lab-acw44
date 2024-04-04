@@ -2,6 +2,12 @@
 import express, { Application } from "express";
 import { pino } from 'pino';
 
+// Import body parser to parse incoming requests
+import * as bodyParser from 'body-parser';
+
+// Import express-session to manage session data
+import * as session from 'express-session';
+
 // Import our code (controllers and middleware)
 import { AppController } from "./controllers/app.controller";
 import { ErrorMiddleware } from "./middleware/error.middleware";
@@ -27,12 +33,24 @@ class App {
     // Serve all static resources from the public directory
     this.app.use(express.static(__dirname + "/public"));
 
+    // Use body parser to parse incoming requests
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(bodyParser.json());
+
     // Set up handlebars for our templating
     HandlebarsMiddleware.setup(this.app);
 
     // Tell express what to do when our routes are visited
     this.app.use(this.appController.router);
     this.app.use(this.errorMiddleware.router);
+
+    // Set up the session
+    this.app.use(session({
+      secret: 'your-secret-key',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: true } // Note: secure should be true in production to ensure the cookie is always sent over HTTPS
+    }));
   }
 
   public listen() {
