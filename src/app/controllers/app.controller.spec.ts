@@ -3,6 +3,8 @@ import request from "supertest";
 import express, { Application } from "express";
 import { AppController } from "./app.controller";
 import { HandlebarsMiddleware } from '../middleware/handlebars.middleware';
+import { UserService } from "../services/user.service";
+
 
 describe("AppController", () => {
   let app: Application;
@@ -17,7 +19,8 @@ describe("AppController", () => {
     HandlebarsMiddleware.setup(app);
 
     // Our controller instance to test
-    controller = new AppController();
+    let userService = new UserService();
+    controller = new AppController(userService);
 
     // Load the controller's router for testing
     app.use(controller.router);
