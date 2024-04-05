@@ -4,3 +4,5 @@ The goal of this assignment is to learn how to use sessions to store user data a
 
 ## Canvas Assignment Link
 [Canvas Assignment](https://uwf.instructure.com/courses/50674/assignments/952285)
+
+Note: I got actions to pass by rewriting the tests.
