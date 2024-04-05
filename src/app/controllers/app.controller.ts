@@ -1,6 +1,6 @@
-import { Request, Response, Router } from "express";
-import { pino } from "pino";
-import { UserService } from "../services/user.service";
+import {Response, Router} from "express";
+import {pino} from "pino";
+import {UserService} from "../services/user.service";
 
 export class AppController {
   public router: Router = Router();
@@ -25,8 +25,7 @@ export class AppController {
     });
 
     this.router.post("/signup", async (req: any, res) => {
-      const user = await this.userService.createUser(req.body.username, req.body.email, req.body.password);
-      req.session.user = user;
+      req.session.user = await this.userService.createUser(req.body.username, req.body.email, req.body.password);
       res.redirect("/");
     });
 

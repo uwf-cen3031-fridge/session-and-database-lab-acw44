@@ -12,19 +12,21 @@ describe("AppController", () => {
 
   // Run this code before every test
   beforeAll(() => {
-    // Create an express instance for testing
-    app = express();
+  // Create an express instance for testing
+  app = express();
 
-    // Set up handlebars for our templating
-    HandlebarsMiddleware.setup(app);
+  // Set up handlebars for our templating
+  HandlebarsMiddleware.setup(app);
 
-    // Our controller instance to test
-    let userService = new UserService();
-    controller = new AppController(userService);
+  // Our userService instance to pass to the controller
+  let userService = new UserService();
 
-    // Load the controller's router for testing
-    app.use(controller.router);
-  });
+  // Our controller instance to test
+  controller = new AppController(userService);
+
+  // Load the controller's router for testing
+  app.use(controller.router);
+});
 
   it("should return a welcome", async () => {
     return request(app)
